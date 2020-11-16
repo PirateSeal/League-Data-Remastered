@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mon Application</string>
+    <string name="home">Home</string>
+    <string name="alarm">Alarme</string>
+    <string name="bread">Bread</string>
+    <string name="cart">Chariot</string>
+</resources>
