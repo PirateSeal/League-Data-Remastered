@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.myapplication.http.ApiServiceImpl
+import com.example.myapplication.model.ModelSummoner
+import com.example.myapplication.model.ranked.ModelRank
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -44,9 +46,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val profileIcon = profile_pic as ImageView
+        profileIcon.setImageResource(R.drawable.summph)
+
         val editText = profile_search as EditText
-        editText.setText("Le Phoque Pirate")
-        editText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val summonerName = editText.text.toString()
                 api.getSummoner(summonerName)
@@ -55,24 +59,32 @@ class ProfileFragment : Fragment() {
             return@OnEditorActionListener false
         })
 
-        val profileIcon = profile_pic as ImageView
-        profileIcon.setImageResource(R.drawable.summph)
 
         val carouselView = profile_carousel as CarouselView
         carouselView.setImageListener(imageListener)
         carouselView.pageCount = images.size
 
         ApiServiceImpl.setFiller(object : ApiServiceImpl.InfoFiller {
-            override fun fillSummonerIcon(profileIconId: Int) {
-                println("i think i got image")
-                //TODO GO FIND USER ICON WITH GLIDE
-val url =
+            override fun fillSummonerData(summoner: ModelSummoner) {
+                val textLvl =
+                    "${resources.getString(R.string.level)}: ${summoner.summonerLevel}"
+                val profilIconUrl =
+                    "${BuildConfig.CDN_URL}/cdn/$VERSION/img/profileicon/${summoner.profileIconId}.png"
 
-                Glide.with(view).load("https://ddragon.leagueoflegends.com/cdn/9.3.1/img/profileicon/3506.png").into(profile_pic);
+                println(profilIconUrl)
+                profile_lvl.text = textLvl
+
+                Glide.with(view)
+                    .load(profilIconUrl)
+                    .into(profile_pic);
             }
 
-            override fun fillSummonerLvl(summonerLevel: Int) {
-                profile_lvl.text =  resources.getString(R.string.level)  +": "+ summonerLevel
+            override fun fillPatch(patch: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun fillRanked(modelRank: ModelRank) {
+                TODO("Not yet implemented")
             }
         })
 
@@ -81,24 +93,28 @@ val url =
             override fun errorSummoner() {
                 Toast.makeText(
                     requireContext(),
-                    "Could not find this summoner",
+                    "Could not find this summoner.",
                     Toast.LENGTH_LONG
                 ).show()
 
             }
+
             override fun errorRank() {
                 Toast.makeText(
                     requireContext(),
-                    "Could not find this summoner",
+                    "Could not find this summoner.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            override fun errorPatch() {
+                Toast.makeText(
+                    requireContext(),
+                    "Could not find current patch version.",
                     Toast.LENGTH_LONG
                 ).show()
             }
         })
-    }
-
-    private fun getSummonerProfilePicUrl(pic_id: Int): String{
-
-        return ""
     }
 
 
@@ -118,7 +134,6 @@ val url =
                 }
             }
     }
-
 
 
     private var imageListener: ImageListener =

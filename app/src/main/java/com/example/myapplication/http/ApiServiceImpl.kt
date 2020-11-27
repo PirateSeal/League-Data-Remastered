@@ -1,6 +1,8 @@
 package com.example.myapplication.http
 
 import com.example.myapplication.BuildConfig
+import com.example.myapplication.model.ModelSummoner
+import com.example.myapplication.model.ranked.ModelRank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -8,8 +10,10 @@ import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
 object ApiServiceImpl {
-    private val apiService = RetrofitClient.getClient().create(ApiService::class.java)
-    private val patchApiService = RetrofitClient.getCustomClient("https://ddragon.leagueoflegends.com/").create(PatchApiService::class.java)
+    private val apiService = RetrofitClient.getApiClient().create(ApiService::class.java)
+    private val patchApiService =
+        RetrofitClient.getCdnClient()
+            .create(PatchApiService::class.java)
 
     private lateinit var errorHandler: ErrorHandler
     private lateinit var fillHandler: InfoFiller
@@ -17,6 +21,7 @@ object ApiServiceImpl {
     interface ErrorHandler {
         fun errorSummoner()
         fun errorRank()
+        fun errorPatch()
     }
 
     fun setListener(listener: ErrorHandler) {
@@ -24,8 +29,9 @@ object ApiServiceImpl {
     }
 
     interface InfoFiller {
-        fun fillSummonerIcon(profileIconId: Int)
-        fun fillSummonerLvl(summonerLevel: Int)
+        fun fillSummonerData(summoner: ModelSummoner)
+        fun fillPatch(patch: String)
+        fun fillRanked(modelRank: ModelRank)
     }
 
 
@@ -38,12 +44,13 @@ object ApiServiceImpl {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
-                val response = apiService.getSummoner(BuildConfig.TOKEN, summonerName).awaitResponse()
+                val response =
+                    apiService.getSummoner(BuildConfig.TOKEN, summonerName).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
                     withContext(Dispatchers.Main) {
-                        fillHandler.fillSummonerIcon(data.profileIconId)
-                        fillHandler.fillSummonerLvl(data.summonerLevel)
+                        fillHandler.fillSummonerData(data)
+                        println(data)
                     }
                 }
             } catch (e: Exception) {
@@ -66,7 +73,7 @@ object ApiServiceImpl {
                     val data = response.body()!!
 
                     withContext(Dispatchers.Main) {
-                        //TODO FILL RANKED INFOS FROM SUMMONER ID
+                        fillHandler.fillRanked(data)
                     }
                 }
             } catch (e: Exception) {
@@ -76,24 +83,21 @@ object ApiServiceImpl {
             }
         }
     }
-    fun getPatchVersion(){
+
+    fun getPatchVersion() {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
                 val response = patchApiService.getPatchVersion().awaitResponse()
-                if(response.isSuccessful){
-
+                if (response.isSuccessful) {
                     val patchVersion = response.body()!!.first()
-                    println(patchVersion);
-
-                withContext(Dispatchers.Main){
-                    //TODO
+                    withContext(Dispatchers.Main) {
+                        fillHandler.fillPatch(patchVersion)
+                    }
                 }
-                }
-                }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    errorHandler.errorRank()
+                    errorHandler.errorPatch()
                 }
             }
         }

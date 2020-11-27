@@ -9,9 +9,9 @@ import com.example.myapplication.http.ApiServiceImpl
 
 
 const val PATCH_VERSION_URL = "https://ddragon.leagueoflegends.com/api/versions.json"
-const val VERSION = "9.3.1"
-const val ASSETS_URL = "https://ddragon.leagueoflegends.com/cdn/$VERSION/img/"
+
 val api = ApiServiceImpl
+val VERSION = api.getPatchVersion()
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+
         val button  = findViewById<Button>(R.id.main_button);
         button.setOnClickListener{
 
-            api.getPatchVersion();
+
             Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG).show()
              intent =  Intent(this, SecondActivity::class.java)
             startActivity(intent)

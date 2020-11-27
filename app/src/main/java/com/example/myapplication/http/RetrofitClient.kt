@@ -33,7 +33,7 @@ object RetrofitClient {
             .build()
     }
 
-    fun getClient( ): Retrofit{
+    fun getApiClient( ): Retrofit{
         if(retrofit == null ) {
             retrofit = Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL )
@@ -46,10 +46,10 @@ object RetrofitClient {
         return retrofit!!
     }
 
-    fun getCustomClient(url: String): Retrofit{
+    fun getCdnClient(): Retrofit{
 
         return Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(BuildConfig.CDN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())

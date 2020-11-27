@@ -27,7 +27,7 @@ android {
         debug{
             buildConfigField "String", "BASE_URL", BASE_URL
             buildConfigField "String", "TOKEN", TOKEN
-
+            buildConfigField "String", "CDN_URL", CDN_URL
         }
     }
     compileOptions {
