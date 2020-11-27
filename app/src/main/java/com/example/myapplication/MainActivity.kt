@@ -11,7 +11,6 @@ import com.example.myapplication.http.ApiServiceImpl
 const val PATCH_VERSION_URL = "https://ddragon.leagueoflegends.com/api/versions.json"
 
 val api = ApiServiceImpl
-val VERSION = api.getPatchVersion()
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.fragment_profile.*
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
-
     var images = intArrayOf(
         R.drawable.unranked,
         R.drawable.unranked
@@ -45,6 +44,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var version = ""
+        api.getPatchVersion()
 
         val profileIcon = profile_pic as ImageView
         profileIcon.setImageResource(R.drawable.summph)
@@ -69,7 +70,7 @@ class ProfileFragment : Fragment() {
                 val textLvl =
                     "${resources.getString(R.string.level)}: ${summoner.summonerLevel}"
                 val profilIconUrl =
-                    "${BuildConfig.CDN_URL}/cdn/$VERSION/img/profileicon/${summoner.profileIconId}.png"
+                    "${BuildConfig.CDN_URL}cdn/$version/img/profileicon/${summoner.profileIconId}.png"
 
                 println(profilIconUrl)
                 profile_lvl.text = textLvl
@@ -80,7 +81,7 @@ class ProfileFragment : Fragment() {
             }
 
             override fun fillPatch(patch: String) {
-                TODO("Not yet implemented")
+                version = patch
             }
 
             override fun fillRanked(modelRank: ModelRank) {
