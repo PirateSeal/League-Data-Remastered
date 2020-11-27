@@ -56,7 +56,6 @@ class ProfileFragment : Fragment() {
                 ).show()
 
             }
-
             override fun errorRank() {
                 Toast.makeText(
                     requireContext(),

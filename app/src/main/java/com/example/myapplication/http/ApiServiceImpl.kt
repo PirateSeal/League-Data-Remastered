@@ -21,7 +21,6 @@ object ApiServiceImpl {
         errorHandler = listener
     }
 
-
     fun getSummoner(summonerName: String) {
         GlobalScope.launch(Dispatchers.IO) {
 
