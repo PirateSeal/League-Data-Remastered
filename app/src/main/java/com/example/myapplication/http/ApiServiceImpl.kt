@@ -1,6 +1,5 @@
 package com.example.myapplication.http
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -10,16 +9,28 @@ import retrofit2.awaitResponse
 object ApiServiceImpl {
     private val apiService = RetrofitClient.getClient().create(ApiService::class.java)
 
-    private lateinit var errorHandler : ErrorHandler
+    private lateinit var errorHandler: ErrorHandler
+    private lateinit var fillHandler: InfoFiller
 
     interface ErrorHandler {
-        fun errorSummoner();
+        fun errorSummoner()
         fun errorRank()
     }
 
-    fun setListener(listener : ErrorHandler) {
+    fun setListener(listener: ErrorHandler) {
         errorHandler = listener
     }
+
+    interface InfoFiller {
+        fun fillSummonerIcon(profileIconId: Int)
+        fun fillSummonerLvl(summonerLevel: Int)
+    }
+
+
+    fun setFiller(listener: InfoFiller) {
+        fillHandler = listener
+    }
+
 
     fun getSummoner(summonerName: String) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -28,10 +39,9 @@ object ApiServiceImpl {
                 val response = apiService.getSummoner(summonerName).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
-                    Log.d("SUMMONER", data.toString())
-
                     withContext(Dispatchers.Main) {
-                        //TODO FILL SUMMONER RELATED TEXT
+                        fillHandler.fillSummonerIcon(data.profileIconId)
+                        fillHandler.fillSummonerLvl(data.summonerLevel)
                     }
                 }
             } catch (e: Exception) {
@@ -49,7 +59,6 @@ object ApiServiceImpl {
                 val response = apiService.getUserRank(summonerId).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
-                    Log.d("RANKS", data.toString())
 
                     withContext(Dispatchers.Main) {
                         //TODO FILL RANKED INFOS FROM SUMMONER ID

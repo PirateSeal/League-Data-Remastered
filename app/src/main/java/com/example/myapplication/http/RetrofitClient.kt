@@ -13,7 +13,7 @@ object RetrofitClient {
 
     private var retrofit: Retrofit? = null
 
-    fun getOkHttpClient():  OkHttpClient{
+    private fun getOkHttpClient():  OkHttpClient{
         var httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()

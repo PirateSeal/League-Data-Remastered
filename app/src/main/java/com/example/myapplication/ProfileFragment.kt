@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.http.ApiServiceImpl
@@ -40,12 +43,35 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val editText = profile_search as EditText
+        editText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val summonerName = editText.text.toString()
+                api.getSummoner(summonerName)
+                return@OnEditorActionListener true
+            }
+            return@OnEditorActionListener false
+        })
+
         val profileIcon = profile_pic as ImageView
         profileIcon.setImageResource(R.drawable.summph)
 
-        val carouselView = profile_carousel as CarouselView;
-        carouselView.setImageListener(imageListener);
-        carouselView.pageCount = images.size;
+        val carouselView = profile_carousel as CarouselView
+        carouselView.setImageListener(imageListener)
+        carouselView.pageCount = images.size
+
+        ApiServiceImpl.setFiller(object : ApiServiceImpl.InfoFiller {
+            override fun fillSummonerIcon(profileIconId: Int) {
+                println("i think i got image")
+                //TODO GO FIND USER ICON WITH GLIDE
+            }
+
+            override fun fillSummonerLvl(summonerLevel: Int) {
+
+                profile_lvl.text = summonerLevel.toString()
+            }
+        })
+
 
         ApiServiceImpl.setListener(object : ApiServiceImpl.ErrorHandler {
             override fun errorSummoner() {
@@ -85,10 +111,9 @@ class ProfileFragment : Fragment() {
 
 
 
-    private var imageListener: ImageListener = object : ImageListener {
-        override fun setImageForPosition(position: Int, imageView: ImageView) {
-            // You can use Glide or Picasso here
+
+    private var imageListener: ImageListener =
+        ImageListener { position, imageView -> // You can use Glide or Picasso here
             imageView.setImageResource(images[position])
         }
-    }
 }
