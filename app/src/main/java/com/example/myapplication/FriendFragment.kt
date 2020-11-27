@@ -13,15 +13,19 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Fragment3.newInstance] factory method to
+ * Use the [FriendFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Fragment3 : Fragment() {
+class FriendFragment : Fragment() {
     // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -30,7 +34,7 @@ class Fragment3 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_3, container, false)
+        return inflater.inflate(R.layout.fragment_friend, container, false)
     }
 
     companion object {
@@ -40,13 +44,15 @@ class Fragment3 : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment Fragment3.
+         * @return A new instance of fragment FriendFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
-            Fragment3().apply {
+        fun newInstance(param1: String, param2: String) =
+            FriendFragment().apply {
                 arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
             }
     }

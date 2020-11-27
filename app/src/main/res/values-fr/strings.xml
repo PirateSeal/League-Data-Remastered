@@ -4,4 +4,7 @@
     <string name="alarm">Alarme</string>
     <string name="bread">Bread</string>
     <string name="cart">Chariot</string>
+    <string name="friends">Ami(e)s</string>
+    <string name="history">History</string>
+    <string name="profile">Profil</string>
 </resources>
