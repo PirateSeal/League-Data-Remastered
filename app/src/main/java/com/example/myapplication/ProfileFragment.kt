@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.myapplication.http.ApiServiceImpl
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
@@ -44,6 +45,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val editText = profile_search as EditText
+        editText.setText("Le Phoque Pirate")
         editText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val summonerName = editText.text.toString()
@@ -64,11 +66,13 @@ class ProfileFragment : Fragment() {
             override fun fillSummonerIcon(profileIconId: Int) {
                 println("i think i got image")
                 //TODO GO FIND USER ICON WITH GLIDE
+val url =
+
+                Glide.with(view).load("https://ddragon.leagueoflegends.com/cdn/9.3.1/img/profileicon/3506.png").into(profile_pic);
             }
 
             override fun fillSummonerLvl(summonerLevel: Int) {
-
-                profile_lvl.text = summonerLevel.toString()
+                profile_lvl.text =  resources.getString(R.string.level)  +": "+ summonerLevel
             }
         })
 
@@ -92,6 +96,12 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun getSummonerProfilePicUrl(pic_id: Int): String{
+
+        return ""
+    }
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -108,7 +118,6 @@ class ProfileFragment : Fragment() {
                 }
             }
     }
-
 
 
 

@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.http.ApiServiceImpl
 
-const val BASE_URL = "https://euw1.api.riotgames.com/lol/"
+
 const val PATCH_VERSION_URL = "https://ddragon.leagueoflegends.com/api/versions.json"
 const val VERSION = "9.3.1"
 const val ASSETS_URL = "https://ddragon.leagueoflegends.com/cdn/$VERSION/img/"
@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
         val button  = findViewById<Button>(R.id.main_button);
         button.setOnClickListener{
+
+            api.getPatchVersion();
             Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG).show()
              intent =  Intent(this, SecondActivity::class.java)
             startActivity(intent)

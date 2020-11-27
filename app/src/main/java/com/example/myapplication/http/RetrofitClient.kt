@@ -1,6 +1,6 @@
 package com.example.myapplication.http
 
-import com.example.myapplication.BASE_URL
+import com.example.myapplication.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -33,11 +33,10 @@ object RetrofitClient {
             .build()
     }
 
-    fun getClient(): Retrofit{
-
+    fun getClient( ): Retrofit{
         if(retrofit == null ) {
             retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL )
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
@@ -45,5 +44,15 @@ object RetrofitClient {
 
         }
         return retrofit!!
+    }
+
+    fun getCustomClient(url: String): Retrofit{
+
+        return Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getOkHttpClient())
+                .build()
     }
 }

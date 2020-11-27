@@ -1,5 +1,6 @@
 package com.example.myapplication.http
 
+import com.example.myapplication.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -8,6 +9,7 @@ import retrofit2.awaitResponse
 
 object ApiServiceImpl {
     private val apiService = RetrofitClient.getClient().create(ApiService::class.java)
+    private val patchApiService = RetrofitClient.getCustomClient("https://ddragon.leagueoflegends.com/").create(PatchApiService::class.java)
 
     private lateinit var errorHandler: ErrorHandler
     private lateinit var fillHandler: InfoFiller
@@ -36,7 +38,7 @@ object ApiServiceImpl {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
-                val response = apiService.getSummoner(summonerName).awaitResponse()
+                val response = apiService.getSummoner(BuildConfig.TOKEN, summonerName).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
                     withContext(Dispatchers.Main) {
@@ -46,11 +48,14 @@ object ApiServiceImpl {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    println(e)
                     errorHandler.errorSummoner()
+
                 }
             }
         }
     }
+
 
     fun getSummonerRanks(summonerId: String) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -65,6 +70,28 @@ object ApiServiceImpl {
                     }
                 }
             } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    errorHandler.errorRank()
+                }
+            }
+        }
+    }
+    fun getPatchVersion(){
+        GlobalScope.launch(Dispatchers.IO) {
+
+            try {
+                val response = patchApiService.getPatchVersion().awaitResponse()
+                if(response.isSuccessful){
+
+                    val patchVersion = response.body()!!.first()
+                    println(patchVersion);
+
+                withContext(Dispatchers.Main){
+                    //TODO
+                }
+                }
+                }
+            catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     errorHandler.errorRank()
                 }
