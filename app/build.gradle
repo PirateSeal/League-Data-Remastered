@@ -68,6 +68,9 @@ dependencies {
 
     implementation 'com.google.android:flexbox:2.0.1'
 
+    //constrain layout
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+
 
     //carousel
     implementation 'com.synnapps:carouselview:0.1.4'

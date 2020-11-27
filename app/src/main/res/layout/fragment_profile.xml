@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/profile_relloyout"
-    tools:context="com.lobothijau.carouselsederhana.ProfileFragment"
-    tools:showIn="@layout/fragment_profile">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context="com.lobothijau.carouselsederhana.ProfileFragment"
+        tools:showIn="@layout/fragment_profile">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/profile_pic"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profile_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:id="@id/profile_search"/>
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/profile_rank"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/profile_search"
-            android:layout_alignRight="@+id/profile_pic"
-            android:text="rank"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/profile_pic"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <SearchView
+                    android:id="@id/profile_search"
+                    android:imeOptions="actionDone"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Summoner Name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Summoner Name" />
+
+                <TextView
+                    android:id="@+id/profile_lvl"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/profile_search"
+                    android:text="rank"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_search"
+                    tools:text="Profile lvl" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.synnapps.carouselview.CarouselView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:id="@+id/profile_carousel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           app:layout_constraintHeight_max="350dp"
+           app:layout_constraintWidth_max="350dp"
+            android:layout_marginTop="2dp"
             app:fillColor="#FFFFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_info"
             app:pageColor="#00000000"
             app:radius="6dp"
-            app:slideInterval="3000"
+            app:slideInterval="0"
             app:strokeColor="#FF777777"
-            app:strokeWidth="1dp"
-            android:layout_below="@id/profile_pic"
-            android:id="@+id/profile_carousel"/>
-    
-    </RelativeLayout>
+            app:strokeWidth="1dp" />
 
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
