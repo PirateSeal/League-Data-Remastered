@@ -1,5 +1,6 @@
 package com.example.myapplication.http
 
+import com.example.myapplication.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,10 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-public class RetrofitClient {
+object RetrofitClient {
 
     private var retrofit: Retrofit? = null
-
 
     fun getOkHttpClient():  OkHttpClient{
         var httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -32,16 +32,18 @@ public class RetrofitClient {
             .connectTimeout(2, TimeUnit.MINUTES)
             .build()
     }
+
     fun getClient(): Retrofit{
 
         if(retrofit == null ) {
             retrofit = Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .build()
+
         }
-        return retrofit!!;
+        return retrofit!!
     }
 }
