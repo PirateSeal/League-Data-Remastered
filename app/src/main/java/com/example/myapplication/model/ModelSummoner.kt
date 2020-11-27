@@ -1,4 +1,4 @@
-package com.example.myapplication.api
+package com.example.myapplication.model
 
 data class ModelSummoner(
     val accountId: String,

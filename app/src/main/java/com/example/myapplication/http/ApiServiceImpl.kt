@@ -1,7 +1,6 @@
 package com.example.myapplication.http
 
 import android.util.Log
-import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -10,6 +9,18 @@ import retrofit2.awaitResponse
 
 object ApiServiceImpl {
     private val apiService = RetrofitClient.getClient().create(ApiService::class.java)
+
+    private lateinit var errorHandler : ErrorHandler
+
+    interface ErrorHandler {
+        fun errorSummoner();
+        fun errorRank()
+    }
+
+    fun setListener(listener : ErrorHandler) {
+        errorHandler = listener
+    }
+
 
     fun getSummoner(summonerName: String) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -26,11 +37,7 @@ object ApiServiceImpl {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Could not find this summoner",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    errorHandler.errorSummoner()
                 }
             }
         }
@@ -51,11 +58,7 @@ object ApiServiceImpl {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Could not find user rank",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    errorHandler.errorRank()
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.myapplication.api
+package com.example.myapplication.model.ranked
 
 data class ModelRankItem(
     val freshBlood: Boolean,

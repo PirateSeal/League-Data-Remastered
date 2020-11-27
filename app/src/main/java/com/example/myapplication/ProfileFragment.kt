@@ -1,11 +1,13 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.myapplication.http.ApiServiceImpl
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -18,9 +20,8 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 class ProfileFragment : Fragment() {
 
     var images = intArrayOf(
-        R.drawable.alarm,
-        R.drawable.home,
-        R.drawable.ic_history
+        R.drawable.unranked,
+        R.drawable.unranked
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +29,10 @@ class ProfileFragment : Fragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -37,9 +40,31 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val profileIcon = profile_pic as ImageView
+        profileIcon.setImageResource(R.drawable.summph)
+
         val carouselView = profile_carousel as CarouselView;
         carouselView.setImageListener(imageListener);
         carouselView.pageCount = images.size;
+
+        ApiServiceImpl.setListener(object : ApiServiceImpl.ErrorHandler {
+            override fun errorSummoner() {
+                Toast.makeText(
+                    requireContext(),
+                    "Could not find this summoner",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+
+            override fun errorRank() {
+                Toast.makeText(
+                    requireContext(),
+                    "Could not find this summoner",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     companion object {
@@ -52,12 +77,14 @@ class ProfileFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-                ProfileFragment().apply {
-                    arguments = Bundle().apply {
+            ProfileFragment().apply {
+                arguments = Bundle().apply {
 
-                    }
                 }
+            }
     }
+
+
 
     private var imageListener: ImageListener = object : ImageListener {
         override fun setImageForPosition(position: Int, imageView: ImageView) {
