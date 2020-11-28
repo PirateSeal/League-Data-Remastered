@@ -1,6 +1,7 @@
-package com.example.myapplication.http
+package com.example.myapplication.http.serviceapi
 
 import com.example.myapplication.BuildConfig
+import com.example.myapplication.http.RetrofitClient
 import com.example.myapplication.model.ModelSummoner
 import com.example.myapplication.model.ranked.ModelRank
 import kotlinx.coroutines.Dispatchers
@@ -11,9 +12,6 @@ import retrofit2.awaitResponse
 
 object ApiServiceImpl {
     private val apiService = RetrofitClient.getApiClient().create(ApiService::class.java)
-    private val patchApiService =
-        RetrofitClient.getCdnClient()
-            .create(PatchApiService::class.java)
 
     private lateinit var errorHandler: ErrorHandler
     private lateinit var fillHandler: InfoFiller
@@ -21,19 +19,16 @@ object ApiServiceImpl {
     interface ErrorHandler {
         fun errorSummoner()
         fun errorRank()
-        fun errorPatch()
+    }
+
+    interface InfoFiller {
+        fun fillSummonerData(summoner: ModelSummoner)
+        fun fillRanked(modelRank: ModelRank)
     }
 
     fun setListener(listener: ErrorHandler) {
         errorHandler = listener
     }
-
-    interface InfoFiller {
-        fun fillSummonerData(summoner: ModelSummoner)
-        fun fillPatch(patch: String)
-        fun fillRanked(modelRank: ModelRank)
-    }
-
 
     fun setFiller(listener: InfoFiller) {
         fillHandler = listener
@@ -68,7 +63,7 @@ object ApiServiceImpl {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
-                val response = apiService.getUserRank(BuildConfig.TOKEN,summonerId).awaitResponse()
+                val response = apiService.getUserRank(BuildConfig.TOKEN, summonerId).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
 
@@ -84,24 +79,7 @@ object ApiServiceImpl {
         }
     }
 
-    fun getPatchVersion() {
-        GlobalScope.launch(Dispatchers.IO) {
 
-            try {
-                val response = patchApiService.getPatchVersion().awaitResponse()
-                if (response.isSuccessful) {
-                    val patchVersion = response.body()!!.first()
-                    withContext(Dispatchers.Main) {
-                        fillHandler.fillPatch(patchVersion)
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    errorHandler.errorPatch()
-                }
-            }
-        }
-    }
 
 
 }

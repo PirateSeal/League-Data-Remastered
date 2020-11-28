@@ -11,7 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.example.myapplication.http.ApiServiceImpl
+import com.example.myapplication.database.DataStorage
+import com.example.myapplication.http.serviceapi.ApiServiceImpl
 import com.example.myapplication.model.ModelSummoner
 import com.example.myapplication.model.ranked.ModelRank
 import com.synnapps.carouselview.CarouselView
@@ -25,6 +26,12 @@ import kotlinx.android.synthetic.main.fragment_profile.*
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
+    val api = ApiServiceImpl
+
+    private lateinit var dataStorage: DataStorage
+
+    private lateinit var version : String
+
     var imagesPh = intArrayOf(
         R.drawable.unranked,
         R.drawable.unranked
@@ -40,8 +47,9 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var version = ""
-        api.getPatchVersion()
+        dataStorage = DataStorage(requireContext())
+
+        version = dataStorage.getString("patch")
 
         val profileIcon = profile_pic as CircleImageView
         profileIcon.setImageResource(R.drawable.summph)
@@ -77,25 +85,23 @@ class ProfileFragment : Fragment() {
                 api.getSummonerRanks(summoner.id)
             }
 
-            override fun fillPatch(patch: String) {
-                version = patch
-            }
-
             override fun fillRanked(modelRank: ModelRank) {
 
                 //Change caroussel images
                 var rankedImages = intArrayOf()
 
-                for (item in modelRank) rankedImages = when (item.tier.toLowerCase()) {
-                    "bronze" -> rankedImages.plus(R.drawable.bronze)
-                    "silver" -> rankedImages.plus(R.drawable.silver)
-                    "gold" -> rankedImages.plus(R.drawable.gold)
-                    "platinum" -> rankedImages.plus(R.drawable.platinum)
-                    "diamond" -> rankedImages.plus(R.drawable.diamond)
-                    "master" -> rankedImages.plus(R.drawable.master)
-                    "grandmaster" -> rankedImages.plus(R.drawable.grandmaster)
-                    "challenger" -> rankedImages.plus(R.drawable.challenger)
-                    else -> rankedImages.plus(R.drawable.unranked)
+                for (item in modelRank) {
+                    rankedImages = when (item.tier.toLowerCase()) {
+                        "bronze" -> rankedImages.plus(R.drawable.bronze)
+                        "silver" -> rankedImages.plus(R.drawable.silver)
+                        "gold" -> rankedImages.plus(R.drawable.gold)
+                        "platinum" -> rankedImages.plus(R.drawable.platinum)
+                        "diamond" -> rankedImages.plus(R.drawable.diamond)
+                        "master" -> rankedImages.plus(R.drawable.master)
+                        "grandmaster" -> rankedImages.plus(R.drawable.grandmaster)
+                        "challenger" -> rankedImages.plus(R.drawable.challenger)
+                        else -> rankedImages.plus(R.drawable.unranked)
+                    }
                 }
 
                 val imageRankedListener =
@@ -138,14 +144,6 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Could not find this summoner.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-            override fun errorPatch() {
-                Toast.makeText(
-                    requireContext(),
-                    "Could not find current patch version.",
                     Toast.LENGTH_LONG
                 ).show()
             }

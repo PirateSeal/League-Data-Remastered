@@ -1,4 +1,4 @@
-package com.example.myapplication.http
+package com.example.myapplication.http.serviceapi
 
 import com.example.myapplication.model.ModelSummoner
 import com.example.myapplication.model.ranked.ModelRank
@@ -15,7 +15,7 @@ interface ApiService {
         @Path("summonerName") summonerName: String
     ): Call<ModelSummoner>
 
-    @GET("league/v4/entries/by-summoner/{id}")
+    @GET(ApiRouting.RANKING)
     fun getUserRank(
         @Header("X-Riot-Token") token: String,
         @Path("id") id: String

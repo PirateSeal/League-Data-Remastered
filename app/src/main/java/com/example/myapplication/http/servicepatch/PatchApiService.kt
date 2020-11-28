@@ -1,4 +1,4 @@
-package com.example.myapplication.http
+package com.example.myapplication.http.servicepatch
 
 import retrofit2.Call
 import retrofit2.http.GET
