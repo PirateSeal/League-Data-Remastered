@@ -68,7 +68,7 @@ object ApiServiceImpl {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
-                val response = apiService.getUserRank(summonerId).awaitResponse()
+                val response = apiService.getUserRank(BuildConfig.TOKEN,summonerId).awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
 

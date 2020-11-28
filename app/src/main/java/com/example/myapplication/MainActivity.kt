@@ -7,9 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.http.ApiServiceImpl
 
-
-const val PATCH_VERSION_URL = "https://ddragon.leagueoflegends.com/api/versions.json"
-
 val api = ApiServiceImpl
 
 class MainActivity : AppCompatActivity() {

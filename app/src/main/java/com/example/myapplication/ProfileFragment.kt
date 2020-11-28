@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.myapplication.http.ApiServiceImpl
 import com.example.myapplication.model.ModelSummoner
 import com.example.myapplication.model.ranked.ModelRank
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 /**
@@ -24,30 +25,25 @@ import kotlinx.android.synthetic.main.fragment_profile.*
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
-    var images = intArrayOf(
+    var imagesPh = intArrayOf(
         R.drawable.unranked,
         R.drawable.unranked
     )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         var version = ""
         api.getPatchVersion()
 
-        val profileIcon = profile_pic as ImageView
+        val profileIcon = profile_pic as CircleImageView
         profileIcon.setImageResource(R.drawable.summph)
 
         val editText = profile_search as EditText
@@ -60,10 +56,9 @@ class ProfileFragment : Fragment() {
             return@OnEditorActionListener false
         })
 
-
         val carouselView = profile_carousel as CarouselView
         carouselView.setImageListener(imageListener)
-        carouselView.pageCount = images.size
+        carouselView.pageCount = imagesPh.size
 
         ApiServiceImpl.setFiller(object : ApiServiceImpl.InfoFiller {
             override fun fillSummonerData(summoner: ModelSummoner) {
@@ -77,7 +72,9 @@ class ProfileFragment : Fragment() {
 
                 Glide.with(view)
                     .load(profilIconUrl)
-                    .into(profile_pic);
+                    .into(profile_pic)
+
+                api.getSummonerRanks(summoner.id)
             }
 
             override fun fillPatch(patch: String) {
@@ -85,10 +82,47 @@ class ProfileFragment : Fragment() {
             }
 
             override fun fillRanked(modelRank: ModelRank) {
-                TODO("Not yet implemented")
+
+                //Change caroussel images
+                var rankedImages = intArrayOf()
+
+                for (item in modelRank) rankedImages = when (item.tier.toLowerCase()) {
+                    "bronze" -> rankedImages.plus(R.drawable.bronze)
+                    "silver" -> rankedImages.plus(R.drawable.silver)
+                    "gold" -> rankedImages.plus(R.drawable.gold)
+                    "platinum" -> rankedImages.plus(R.drawable.platinum)
+                    "diamond" -> rankedImages.plus(R.drawable.diamond)
+                    "master" -> rankedImages.plus(R.drawable.master)
+                    "grandmaster" -> rankedImages.plus(R.drawable.grandmaster)
+                    "challenger" -> rankedImages.plus(R.drawable.challenger)
+                    else -> rankedImages.plus(R.drawable.unranked)
+                }
+
+                val imageRankedListener =
+                    ImageListener { position, imageView ->
+                        imageView.setImageResource(rankedImages[position])
+                    }
+
+                fillRankLayout(0, modelRank)
+
+                carouselView.setImageListener(imageRankedListener)
+                carouselView.pageCount = rankedImages.size
+
+                carouselView.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(state: Int) {}
+                    override fun onPageScrolled(
+                        position: Int,
+                        positionOffset: Float,
+                        positionOffsetPixels: Int
+                    ) {
+                    }
+
+                    override fun onPageSelected(position: Int) {
+                        fillRankLayout(position, modelRank)
+                    }
+                })
             }
         })
-
 
         ApiServiceImpl.setListener(object : ApiServiceImpl.ErrorHandler {
             override fun errorSummoner() {
@@ -118,6 +152,30 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun fillRankLayout(position: Int, modelRank: ModelRank) {
+        val display = "${modelRank[position].tier} : ${modelRank[position].rank}"
+        var lp = ""
+
+        league_display.text = display
+
+        if (modelRank[position].leaguePoints == 100) {
+            for (i in modelRank[position].miniSeries.wins downTo 0) {
+                lp += "✅ / "
+            }
+            for (i in modelRank[position].miniSeries.losses downTo 1) {
+                lp += if (i == 1) {
+                    "❌"
+                } else {
+                    "❌ / "
+                }
+            }
+            lp_display.text = lp
+        } else {
+            lp = "${modelRank[position].leaguePoints} LP"
+            lp_display.text = lp
+        }
+    }
+
 
     companion object {
         /**
@@ -136,9 +194,10 @@ class ProfileFragment : Fragment() {
             }
     }
 
-
     private var imageListener: ImageListener =
-        ImageListener { position, imageView -> // You can use Glide or Picasso here
-            imageView.setImageResource(images[position])
+        ImageListener { position, imageView ->
+            imageView.setImageResource(imagesPh[position])
         }
+
+
 }
