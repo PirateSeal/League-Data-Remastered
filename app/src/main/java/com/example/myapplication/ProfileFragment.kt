@@ -19,6 +19,7 @@ import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -99,7 +100,7 @@ class ProfileFragment : Fragment() {
                 var rankedImages = intArrayOf()
 
                 for (item in modelRank) {
-                    rankedImages = when (item.tier.toLowerCase()) {
+                    rankedImages = when (item.tier.toLowerCase(Locale.ROOT)) {
                         "bronze" -> rankedImages.plus(R.drawable.bronze)
                         "silver" -> rankedImages.plus(R.drawable.silver)
                         "gold" -> rankedImages.plus(R.drawable.gold)
