@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.database.DataStorage
 import com.example.myapplication.history.Historic
 import com.example.myapplication.history.HistoricAdapter
+import com.example.myapplication.http.historic.HistoricServiceImpl
 import kotlinx.android.synthetic.main.fragment_historic.*
+import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass.
@@ -17,8 +20,10 @@ import kotlinx.android.synthetic.main.fragment_historic.*
  */
 class HistoricFragment : Fragment() {
 
-private lateinit var adapter: HistoricAdapter;
+    private lateinit var adapter: HistoricAdapter;
     private lateinit var historics: ArrayList<Historic>;
+    private lateinit var dataStorage: DataStorage;
+    val api = HistoricServiceImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +42,31 @@ private lateinit var adapter: HistoricAdapter;
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
+        dataStorage = DataStorage(requireContext())
+
+        try {
+            val accountId =  dataStorage.getString("accountId")
+            api.getMatches(accountId)
+
+        }catch (e : Exception){
+            println(e)
+            //TODO make a toast
+        }
+
+        api.setFiller(object: HistoricServiceImpl.InfoFiller{
+            override fun fillMatchList() {
+
+
+            }
+        })
+
+
+
         historic_recyclerView.layoutManager = LinearLayoutManager(requireContext());
-val url = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80";
+        val url = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80";
         historics = ArrayList()
         for(x in 0..10){
-            val h = Historic(profile_pic = url, kda ="$x", rank_p = url )
+            val h = Historic(champion_pic = url, kda ="$x", rank_p = url )
             historics.add(h);
         }
 
@@ -60,8 +85,8 @@ val url = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb
         fun newInstance() =
             HistoricFragment().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }
+
 }

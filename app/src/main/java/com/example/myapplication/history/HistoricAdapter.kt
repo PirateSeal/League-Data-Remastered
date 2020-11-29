@@ -36,7 +36,7 @@ class HistoricAdapter(private val historics: ArrayList<Historic>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.itemView)
-            .load(historics[position].profile_pic)
+            .load(historics[position].champion_pic)
             .into(holder.profile_pic)
 
         Glide.with(holder.itemView)

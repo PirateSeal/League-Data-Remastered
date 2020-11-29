@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/historic_element_pp"
+        android:id="@+id/historic_element_champion_pic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true" />
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/historic_element_rank_pp"
-        android:layout_toEndOf="@id/historic_element_pp"
+        android:layout_toEndOf="@id/historic_element_champion_pic"
         android:text="KDA" />
 
     <ImageView

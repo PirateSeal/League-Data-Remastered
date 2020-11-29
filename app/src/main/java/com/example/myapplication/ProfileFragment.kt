@@ -79,6 +79,12 @@ class ProfileFragment : Fragment() {
 
         ApiServiceImpl.setFiller(object : ApiServiceImpl.InfoFiller {
             override fun fillSummonerData(summoner: ModelSummoner) {
+
+                dataStorage.putString("accountId", summoner.accountId);
+                dataStorage.putString("id", summoner.id);
+                dataStorage.putString("puuid", summoner.puuid);
+
+
                 val textLvl =
                     "${resources.getString(R.string.level)}: ${summoner.summonerLevel}"
                 val profilIconUrl =
