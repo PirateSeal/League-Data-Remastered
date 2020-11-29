@@ -1,9 +1,9 @@
-package com.example.myapplication.http.historic
+package com.tcousin.leaguedataremastered.http.historic
 
-import com.example.myapplication.BuildConfig
-import com.example.myapplication.http.RetrofitClient
-import com.example.myapplication.model.matchs.MatchsList
-import com.example.myapplication.model.matchs.games.Game
+import com.tcousin.leaguedataremastered.BuildConfig
+import com.tcousin.leaguedataremastered.http.RetrofitClient
+import com.tcousin.leaguedataremastered.model.matchs.MatchsList
+import com.tcousin.leaguedataremastered.model.matchs.games.Game
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

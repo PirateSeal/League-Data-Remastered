@@ -1,6 +1,6 @@
-package com.example.myapplication.http
+package com.tcousin.leaguedataremastered.http
 
-import com.example.myapplication.BuildConfig
+import com.tcousin.leaguedataremastered.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

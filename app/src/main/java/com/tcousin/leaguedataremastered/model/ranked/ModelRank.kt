@@ -1,3 +1,3 @@
-package com.example.myapplication.model.ranked
+package com.tcousin.leaguedataremastered.model.ranked
 
 class ModelRank : ArrayList<ModelRankItem>()

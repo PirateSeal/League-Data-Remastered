@@ -1,4 +1,4 @@
-package com.example.myapplication.model
+package com.tcousin.leaguedataremastered.model
 
 data class ModelSummoner(
     val accountId: String,

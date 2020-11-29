@@ -1,4 +1,4 @@
-package com.example.myapplication.model.champions
+package com.tcousin.leaguedataremastered.model.champions
 
 import java.util.*
 

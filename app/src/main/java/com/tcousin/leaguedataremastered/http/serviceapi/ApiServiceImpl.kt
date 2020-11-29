@@ -1,9 +1,9 @@
-package com.example.myapplication.http.serviceapi
+package com.tcousin.leaguedataremastered.http.serviceapi
 
-import com.example.myapplication.BuildConfig
-import com.example.myapplication.http.RetrofitClient
-import com.example.myapplication.model.ModelSummoner
-import com.example.myapplication.model.ranked.ModelRank
+import com.tcousin.leaguedataremastered.BuildConfig
+import com.tcousin.leaguedataremastered.http.RetrofitClient
+import com.tcousin.leaguedataremastered.model.ModelSummoner
+import com.tcousin.leaguedataremastered.model.ranked.ModelRank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -78,8 +78,6 @@ object ApiServiceImpl {
             }
         }
     }
-
-
 
 
 }

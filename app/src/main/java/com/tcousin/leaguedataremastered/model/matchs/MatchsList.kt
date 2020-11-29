@@ -1,4 +1,4 @@
-package com.example.myapplication.model.matchs
+package com.tcousin.leaguedataremastered.model.matchs
 
 data class MatchsList(
     val endIndex: Int,

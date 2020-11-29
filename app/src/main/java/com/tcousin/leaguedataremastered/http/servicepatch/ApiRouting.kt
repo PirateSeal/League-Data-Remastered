@@ -1,4 +1,4 @@
-package com.example.myapplication.http.servicepatch
+package com.tcousin.leaguedataremastered.http.servicepatch
 
 object ApiRouting {
     const val PATCH = "api/versions.json"

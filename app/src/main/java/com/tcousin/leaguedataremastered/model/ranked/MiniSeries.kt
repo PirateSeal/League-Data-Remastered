@@ -1,4 +1,4 @@
-package com.example.myapplication.model.ranked
+package com.tcousin.leaguedataremastered.model.ranked
 
 data class MiniSeries(
     val losses: Int,

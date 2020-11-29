@@ -1,4 +1,4 @@
-package com.example.myapplication.model.matchs
+package com.tcousin.leaguedataremastered.model.matchs
 
 data class Match(
     val champion: Int,

@@ -1,4 +1,4 @@
-package com.example.myapplication.model.matchs.games
+package com.tcousin.leaguedataremastered.model.matchs.games
 
 data class Player(
     val accountId: String,

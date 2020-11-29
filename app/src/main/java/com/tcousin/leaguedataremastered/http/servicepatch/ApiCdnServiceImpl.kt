@@ -1,7 +1,7 @@
-package com.example.myapplication.http.servicepatch
+package com.tcousin.leaguedataremastered.http.servicepatch
 
-import com.example.myapplication.http.RetrofitClient
-import com.example.myapplication.model.champions.Champions
+import com.tcousin.leaguedataremastered.http.RetrofitClient
+import com.tcousin.leaguedataremastered.model.champions.Champions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

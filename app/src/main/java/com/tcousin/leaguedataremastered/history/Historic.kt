@@ -1,4 +1,4 @@
-package com.example.myapplication.history
+package com.tcousin.leaguedataremastered.history
 
 data class Historic(
     var championId: String,

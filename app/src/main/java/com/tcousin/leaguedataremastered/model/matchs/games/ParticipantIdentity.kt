@@ -1,4 +1,4 @@
-package com.example.myapplication.model.matchs.games
+package com.tcousin.leaguedataremastered.model.matchs.games
 
 data class ParticipantIdentity(
     val participantId: Int,

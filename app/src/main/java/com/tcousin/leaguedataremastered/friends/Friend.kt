@@ -1,4 +1,4 @@
-package com.example.myapplication.friends
+package com.tcousin.leaguedataremastered.friends
 
 data class Friend(
 

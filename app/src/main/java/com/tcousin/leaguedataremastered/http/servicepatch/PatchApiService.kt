@@ -1,6 +1,6 @@
-package com.example.myapplication.http.servicepatch
+package com.tcousin.leaguedataremastered.http.servicepatch
 
-import com.example.myapplication.model.champions.Champions
+import com.tcousin.leaguedataremastered.model.champions.Champions
 import retrofit2.Call
 import retrofit2.http.GET
 
