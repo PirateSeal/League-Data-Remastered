@@ -17,7 +17,7 @@ class SecondActivity : AppCompatActivity() {
         bottom_bar.onTabSelected = { tab ->
             when (tab.title){
                 "Profile" -> showProfileFragment()
-                "Historic" -> showHistoricFragment()
+                "History" -> showHistoricFragment()
                 "Friends" -> showFriendsFragment()
                 else -> showProfileFragment()
             }

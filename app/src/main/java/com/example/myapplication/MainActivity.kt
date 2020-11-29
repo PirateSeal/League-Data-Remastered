@@ -33,9 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.main_button);
-        button.setOnClickListener {
-
             Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG)
                 .show()
             intent = Intent(this, SecondActivity::class.java)

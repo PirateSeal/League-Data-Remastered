@@ -5,8 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.friends_element.view.*
 
 class FriendsAdapter (private val friends: ArrayList<Friend>): RecyclerView.Adapter<FriendsAdapter.ViewHolder>(){
@@ -26,12 +29,18 @@ class FriendsAdapter (private val friends: ArrayList<Friend>): RecyclerView.Adap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
        val view  = LayoutInflater.from(parent.context)
            .inflate(R.layout.friends_element, parent, false)
-
         return ViewHolder(view);
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.f_name.text = friends[position].name;
+        Glide.with(holder.itemView)
+            .load(friends[position].profile_picture)
+            .into(holder.f_pp)
+
+        Glide.with(holder.itemView)
+            .load(friends[position].rank)
+            .into(holder.f_rank)
     }
 
     override fun getItemCount(): Int {
