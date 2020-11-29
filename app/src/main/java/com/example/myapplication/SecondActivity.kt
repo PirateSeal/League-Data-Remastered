@@ -7,15 +7,12 @@ import kotlinx.android.synthetic.main.activity_second.bottom_bar as bottom_bar
 
 class SecondActivity : AppCompatActivity() {
 
-    lateinit var tv: TextView;
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        tv = findViewById(R.id.second_title)
         bottom_bar.onTabSelected = { tab ->
-            when (tab.title){
+            when (tab.title) {
                 "Profile" -> showProfileFragment()
                 "History" -> showHistoricFragment()
                 "Friends" -> showFriendsFragment()
@@ -24,19 +21,19 @@ class SecondActivity : AppCompatActivity() {
         }
     }
 
-    private fun showProfileFragment(){
-        tv.text = "Profile";
-        supportFragmentManager.beginTransaction().replace(R.id.containerFragment, ProfileFragment()).commit()
+    private fun showProfileFragment() {
+        supportFragmentManager.beginTransaction().replace(R.id.containerFragment, ProfileFragment())
+            .commit()
     }
 
-    private fun showHistoricFragment(){
-        tv.text = "Historic"
-        supportFragmentManager.beginTransaction().replace(R.id.containerFragment, HistoricFragment() ).commit()
+    private fun showHistoricFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.containerFragment, HistoricFragment()).commit()
     }
 
-    private  fun showFriendsFragment(){
-        tv.text = "Friends"
-        supportFragmentManager.beginTransaction().replace(R.id.containerFragment, FriendFragment()).commit();
+    private fun showFriendsFragment() {
+        supportFragmentManager.beginTransaction().replace(R.id.containerFragment, FriendFragment())
+            .commit();
     }
 
 }

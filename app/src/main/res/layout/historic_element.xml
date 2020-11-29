@@ -13,8 +13,8 @@
         android:id="@+id/historic_element_kda"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_toEndOf="@id/historic_element_pp"
         android:layout_toStartOf="@+id/historic_element_rank_pp"
+        android:layout_toEndOf="@id/historic_element_pp"
         android:text="KDA" />
 
     <ImageView

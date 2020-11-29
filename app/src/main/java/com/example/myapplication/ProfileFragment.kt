@@ -26,11 +26,12 @@ import kotlinx.android.synthetic.main.fragment_profile.*
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
-    val api = ApiServiceImpl
+    val api = ApiServiceImpl;
 
-    private lateinit var dataStorage: DataStorage
+    private lateinit var dataStorage: DataStorage;
 
-    private lateinit var version : String
+    private lateinit var version : String;
+    private var summonerName: String = "";
 
     var imagesPh = intArrayOf(
         R.drawable.unranked,
@@ -54,11 +55,18 @@ class ProfileFragment : Fragment() {
         val profileIcon = profile_pic as CircleImageView
         profileIcon.setImageResource(R.drawable.summph)
 
-        val editText = profile_search as EditText
+        val editText = profile_search as EditText;
+        summonerName = dataStorage.getString("summonerName")
+        if(summonerName != ""){
+            editText.setText(summonerName);
+            api.getSummoner(summonerName);
+        }
+
         editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val summonerName = editText.text.toString()
-                api.getSummoner(summonerName)
+                dataStorage.putString("summonerName", summonerName);
+                api.getSummoner(summonerName);
                 return@OnEditorActionListener true
             }
             return@OnEditorActionListener false

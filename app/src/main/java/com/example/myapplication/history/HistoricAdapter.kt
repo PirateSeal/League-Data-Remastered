@@ -10,14 +10,15 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.historic_element.view.*
 
-class HistoricAdapter(private val historics: ArrayList<Historic>): RecyclerView.Adapter<HistoricAdapter.ViewHolder>() {
+class HistoricAdapter(private val historics: ArrayList<Historic>) :
+    RecyclerView.Adapter<HistoricAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder (view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profile_pic: ImageView;
         val kda: TextView;
         val rank_p: ImageView;
 
-        init{
+        init {
             profile_pic = view.historic_element_pp;
             kda = view.historic_element_kda;
             rank_p = view.historic_element_rank_pp;
@@ -30,13 +31,13 @@ class HistoricAdapter(private val historics: ArrayList<Historic>): RecyclerView.
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.historic_element, parent, false)
-    return ViewHolder(view);
+        return ViewHolder(view);
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       Glide.with(holder.itemView)
-           .load(historics[position].profile_pic)
-           .into(holder.profile_pic)
+        Glide.with(holder.itemView)
+            .load(historics[position].profile_pic)
+            .into(holder.profile_pic)
 
         Glide.with(holder.itemView)
             .load(historics[position].rank_p)
@@ -46,7 +47,7 @@ class HistoricAdapter(private val historics: ArrayList<Historic>): RecyclerView.
     }
 
     override fun getItemCount(): Int {
-      return historics.size
+        return historics.size
     }
 
 }

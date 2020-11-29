@@ -13,30 +13,30 @@ object RetrofitClient {
 
     private var retrofit: Retrofit? = null
 
-    private fun getOkHttpClient():  OkHttpClient{
+    private fun getOkHttpClient(): OkHttpClient {
         var httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .cache(null)
             .addInterceptor(httpLoggingInterceptor)
-            .addNetworkInterceptor {
-                chain ->
-                chain.proceed(chain.request()
-                    .newBuilder()
-                    .build()
+            .addNetworkInterceptor { chain ->
+                chain.proceed(
+                    chain.request()
+                        .newBuilder()
+                        .build()
                 )
             }
             .callTimeout(2, TimeUnit.MINUTES)
             .writeTimeout(2, TimeUnit.MINUTES)
-            .readTimeout(2,TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
             .connectTimeout(2, TimeUnit.MINUTES)
             .build()
     }
 
-    fun getApiClient( ): Retrofit{
-        if(retrofit == null ) {
+    fun getApiClient(): Retrofit {
+        if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL )
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
@@ -46,13 +46,12 @@ object RetrofitClient {
         return retrofit!!
     }
 
-    fun getCdnClient(): Retrofit{
-
+    fun getCdnClient(): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.CDN_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(getOkHttpClient())
-                .build()
+            .baseUrl(BuildConfig.CDN_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(getOkHttpClient())
+            .build()
     }
 }
