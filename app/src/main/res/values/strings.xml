@@ -9,7 +9,13 @@
     <string name="history">History</string>
     <string name="profile">Profile</string>
     <string name="level">Level</string>
+    <string name="error_rank">Could not find this summoner\'s rank data.</string>
+    <string name="error_summoner">Could not find this summoner.</string>
+    <string name="error_patch">Could not get patch version</string>
+    <string name="error_match">Could not retrieve matches</string>
     <string name="welcome">Welcome</string>
+    <string name="ranked_solo" translatable="false">Ranked Solo / Duo</string>
+    <string name="ranked_flex" translatable="false">Ranked Flex</string>
 
 
 </resources>

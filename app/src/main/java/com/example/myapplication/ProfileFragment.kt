@@ -149,7 +149,7 @@ class ProfileFragment : Fragment() {
             override fun errorSummoner() {
                 Toast.makeText(
                     requireContext(),
-                    "Could not find this summoner.",
+                    R.string.error_summoner,
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -158,7 +158,7 @@ class ProfileFragment : Fragment() {
             override fun errorRank() {
                 Toast.makeText(
                     requireContext(),
-                    "Could not find this summoner.",
+                    R.string.error_rank,
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -168,6 +168,13 @@ class ProfileFragment : Fragment() {
     private fun fillRankLayout(position: Int, modelRank: ModelRank) {
         val display = "${modelRank[position].tier} : ${modelRank[position].rank}"
         var lp = ""
+
+        if(modelRank[position].queueType == "RANKED_SOLO_5x5") {
+            ranked_mode.text = getString(R.string.ranked_solo)
+        } else {
+            ranked_mode.text = getString(R.string.ranked_flex)
+        }
+
 
         league_display.text = display
 
@@ -184,7 +191,7 @@ class ProfileFragment : Fragment() {
             }
             lp_display.text = lp
         } else {
-            lp = "${modelRank[position].leaguePoints} LP"
+            lp = "${modelRank[position].leaguePoints} League Points"
             lp_display.text = lp
         }
     }

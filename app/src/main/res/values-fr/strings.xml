@@ -5,8 +5,12 @@
     <string name="bread">Bread</string>
     <string name="cart">Chariot</string>
     <string name="friends">Ami(e)s</string>
-    <string name="history">History</string>
+    <string name="history">Historique</string>
     <string name="profile">Profil</string>
     <string name="level">Niveau</string>
     <string name="welcome">Bienvenu(e)</string>
+    <string name="error_rank">Nous n\'avons pas pu récuperer les données classées de ce summoner.</string>
+    <string name="error_summoner">Nous n\'avons pas pu récuperer ce summoner.</string>
+    <string name="error_patch">L\'application n\'a pas pu récupérer la dernière version du patch actuel</string>
+    <string name="error_match">Nous n\'avons pas pu récupérer l\'historique de matchs</string>
 </resources>

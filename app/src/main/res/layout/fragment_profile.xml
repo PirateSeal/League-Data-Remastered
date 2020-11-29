@@ -75,6 +75,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_info">
 
+            <TextView
+                android:id="@+id/ranked_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/profile_carousel"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Ranked Mode" />
+
+
             <com.synnapps.carouselview.CarouselView
                 android:id="@+id/profile_carousel"
                 android:layout_width="250dp"
@@ -82,7 +93,6 @@
                 app:fillColor="#FFFFFFFF"
                 app:layout_constraintBottom_toTopOf="@id/league_display"
                 app:layout_constraintHeight_max="350dp"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

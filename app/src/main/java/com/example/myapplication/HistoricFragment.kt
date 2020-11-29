@@ -16,8 +16,6 @@ import com.example.myapplication.model.matchs.MatchsList
 import com.example.myapplication.model.matchs.games.Game
 import com.example.myapplication.model.matchs.games.Participant
 import kotlinx.android.synthetic.main.fragment_historic.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 /**
  * A simple [Fragment] subclass.
@@ -47,28 +45,20 @@ class HistoricFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_historic, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState)
         dataStorage = DataStorage(requireContext())
 
-        historic_recyclerView.layoutManager = LinearLayoutManager(requireContext());
+        historic_recyclerView.layoutManager = LinearLayoutManager(requireContext())
         historics = ArrayList()
 
         adapter = HistoricAdapter(historics)
         historic_recyclerView.adapter = adapter;
-
-        try {
-            accountId = dataStorage.getString("accountId")
-            api.getMatches(accountId)
-
-        } catch (e: Exception) {
-            println(e)
-         Toast.makeText(requireContext(), "Retry", Toast.LENGTH_LONG).show()
-        }
+        accountId = dataStorage.getString("accountId")
+        api.getMatches(accountId)
 
         api.setFiller(object : HistoricServiceImpl.InfoFiller {
 
@@ -117,15 +107,13 @@ class HistoricFragment : Fragment() {
 
         api.setListener(object : HistoricServiceImpl.ErrorHandler {
             override fun errorMatches() {
-                Toast.makeText(
-                    requireContext(),
-                    "Could not retrieve historic, try logging first",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                Toast.makeText(requireContext(), R.string.error_match, Toast.LENGTH_LONG).show()
             }
         })
+
+
     }
+
 
     companion object {
         /**

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -33,8 +34,11 @@ class MainActivity : AppCompatActivity() {
 
         patchApi.setListener(object : ApiCdnServiceImpl.ErrorHandler {
             override fun errorPatch() {
-                Toast.makeText(applicationContext, "Patch version not found", Toast.LENGTH_LONG)
-                    .show()
+                makeText(
+                    applicationContext,
+                    R.string.error_patch,
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
 
