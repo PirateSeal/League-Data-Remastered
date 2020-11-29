@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">League Data Remastered</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="alarm">Alarm</string>
     <string name="bread">Bread</string>
@@ -10,6 +9,7 @@
     <string name="history">History</string>
     <string name="profile">Profile</string>
     <string name="level">Level</string>
+    <string name="welcome">Welcome</string>
 
 
 </resources>

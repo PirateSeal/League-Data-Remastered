@@ -37,7 +37,6 @@ object ApiCdnServiceImpl {
 
     fun getPatchVersion() {
         GlobalScope.launch(Dispatchers.IO) {
-
             try {
                 val response = cdnApiService.getPatchVersion().awaitResponse()
                 if (response.isSuccessful) {
@@ -54,11 +53,11 @@ object ApiCdnServiceImpl {
         }
     }
 
-    suspend fun getChampion(championId: Int)  {
+    suspend fun getChampion(championId: Int) {
         try {
             val response = cdnApiService.getChampions().awaitResponse()
             if (response.isSuccessful) {
-                val champions : Champions? = response.body()
+                val champions: Champions? = response.body()
 
                 val champion = champions?.let { listOf(it.data) }
 
@@ -66,7 +65,7 @@ object ApiCdnServiceImpl {
 
             }
         } catch (e: Exception) {
-                errorHandler.errorPatch()
+            errorHandler.errorPatch()
         }
     }
 }

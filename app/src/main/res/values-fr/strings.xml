@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mon Application</string>
+    <string name="app_name">League Data Remastered</string>
     <string name="home">Home</string>
     <string name="alarm">Alarme</string>
     <string name="bread">Bread</string>
@@ -8,4 +8,5 @@
     <string name="history">History</string>
     <string name="profile">Profil</string>
     <string name="level">Niveau</string>
+    <string name="welcome">Bienvenu(e)</string>
 </resources>

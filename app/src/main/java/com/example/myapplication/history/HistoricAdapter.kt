@@ -38,23 +38,8 @@ class HistoricAdapter(private val historics: ArrayList<Historic>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         dataStorage = DataStorage(holder.itemView.context)
-        val version = dataStorage.getString("patch")
+       // val version = dataStorage.getString("patch")
 
-
-
-        /*val profilIconUrl =
-            "${BuildConfig.CDN_URL}cdn/$version/img/profileicon/${summoner.profileIconId}.png"
-
-
-        Glide.with(holder.itemView)
-            .load(historics[position].champion_pic)
-            .into(holder.profile_pic)
-
-        Glide.with(holder.itemView)
-            .load(historics[position].rank_p)
-            .into(holder.rank_p);
-
-        holder.kda.text = historics[position].kda;*/
     }
 
     override fun getItemCount(): Int {

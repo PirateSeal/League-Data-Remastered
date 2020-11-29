@@ -1,9 +1,15 @@
 package com.example.myapplication
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.myapplication.database.DataStorage
 import com.example.myapplication.http.servicepatch.ApiCdnServiceImpl
 
@@ -27,15 +33,44 @@ class MainActivity : AppCompatActivity() {
 
         patchApi.setListener(object : ApiCdnServiceImpl.ErrorHandler {
             override fun errorPatch() {
-                TODO("Not yet implemented")
+                Toast.makeText(applicationContext, "Patch version not found", Toast.LENGTH_LONG)
+                    .show()
             }
         })
 
+
         setContentView(R.layout.activity_main)
 
-            Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG)
-                .show()
-            intent = Intent(this, SecondActivity::class.java)
-            startActivity(intent)
+        Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG)
+            .show()
+        intent = Intent(this, SecondActivity::class.java)
+        startActivity(intent)
+        sendNotification();
     }
+
+    private fun sendNotification() {
+        val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "LDR_CHANNEL_ID",
+                "LDR_CHANNEL",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = "CHANNEL_FOR_LDR"
+            mNotificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(this, "LDR_CHANNEL_ID")
+            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setContentTitle(getString(R.string.app_name))
+            .setContentText(getString(R.string.welcome))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) {
+            notify(1, builder.build())
+        }
+    }
+
+
 }

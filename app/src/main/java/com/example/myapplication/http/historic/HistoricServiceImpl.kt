@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
-
 object HistoricServiceImpl {
 
     private val historicApiService =
@@ -26,6 +25,7 @@ object HistoricServiceImpl {
 
     interface InfoFiller {
         suspend fun fillMatchList(matchList: MatchsList)
+        fun fillMatchInfo(game: Game)
     }
 
     fun setListener(listener: ErrorHandler) {
@@ -54,20 +54,18 @@ object HistoricServiceImpl {
         }
     }
 
-    suspend fun getGameInfo(gameId: Long): Game? {
+    suspend fun getGameInfo(gameId: Long) {
         try {
             val response =
                 historicApiService.getGameInfo(BuildConfig.TOKEN, gameId).awaitResponse()
             if (response.isSuccessful) {
-                return response.body()!!
+                val game = response.body()!!
+                fillHandler.fillMatchInfo(game)
             }
-
+            println("33")
         } catch (e: Exception) {
             errorHandler.errorMatches()
         }
 
-        return null
     }
-
-
 }

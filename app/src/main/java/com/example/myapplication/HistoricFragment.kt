@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.database.DataStorage
@@ -15,6 +16,8 @@ import com.example.myapplication.model.matchs.MatchsList
 import com.example.myapplication.model.matchs.games.Game
 import com.example.myapplication.model.matchs.games.Participant
 import kotlinx.android.synthetic.main.fragment_historic.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 /**
  * A simple [Fragment] subclass.
@@ -22,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_historic.*
  * create an instance of this fragment.
  */
 class HistoricFragment : Fragment() {
+
+    private lateinit var gameInfo: Game;
     private val api = HistoricServiceImpl
     private val cdnApi = ApiCdnServiceImpl
 
@@ -49,74 +54,78 @@ class HistoricFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
         dataStorage = DataStorage(requireContext())
+
+        historic_recyclerView.layoutManager = LinearLayoutManager(requireContext());
+        historics = ArrayList()
+
+        adapter = HistoricAdapter(historics)
+        historic_recyclerView.adapter = adapter;
+
         try {
             accountId = dataStorage.getString("accountId")
             api.getMatches(accountId)
 
         } catch (e: Exception) {
             println(e)
-            //TODO make a toast
+         Toast.makeText(requireContext(), "Retry", Toast.LENGTH_LONG).show()
         }
 
         api.setFiller(object : HistoricServiceImpl.InfoFiller {
+
+            override fun fillMatchInfo(game: Game) {
+                gameInfo = game;
+                println("GAME")
+                println(game)
+            }
+
             override suspend fun fillMatchList(matchList: MatchsList) {
-                fillRecycler(matchList)
+
+                var player: Participant
+
+                for (match in matchList.matches) {
+                    for (participant in gameInfo.participantIdentities) {
+                        if (accountId == participant.player.currentAccountId) {
+                            val playerGameId = participant.participantId
+                            player =
+                                gameInfo.participants.find { p -> p.participantId == playerGameId }!!
+
+                            cdnApi.getChampion(player.championId)
+
+                            val champion: String = ""
+
+                            val historic = Historic(
+                                championId = champion,
+                                kills = player.stats.kills,
+                                deaths = player.stats.deaths,
+                                assists = player.stats.assists,
+                                item0 = player.stats.item0,
+                                item1 = player.stats.item1,
+                                item2 = player.stats.item2,
+                                item3 = player.stats.item3,
+                                item4 = player.stats.item4,
+                                item5 = player.stats.item5,
+                                ward = player.stats.item6
+                            )
+                            historics.add(historic)
+                        }
+                    }
+                    println(historics);
+                    println(historics);
+                }
             }
         })
 
         api.setListener(object : HistoricServiceImpl.ErrorHandler {
             override fun errorMatches() {
-                println("usuk")
+                Toast.makeText(
+                    requireContext(),
+                    "Could not retrieve historic, try logging first",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
             }
-
         })
-
-
     }
-
-    suspend fun fillRecycler(matchList: MatchsList) {
-        var gameInfo: Game
-        var player: Participant
-
-        historic_recyclerView.layoutManager = LinearLayoutManager(requireContext());
-
-        historics = ArrayList()
-
-
-        for (match in matchList.matches) {
-            gameInfo = api.getGameInfo(match.gameId)!!
-
-            for (participant in gameInfo.participantIdentities) {
-                if (accountId == participant.player.currentAccountId) {
-                    val playerGameId = participant.participantId
-                    player = gameInfo.participants.find { p -> p.participantId == playerGameId }!!
-
-                    cdnApi.getChampion(player.championId)
-
-                    val champion: String = ""
-
-                    val historic = Historic(
-                        championId = champion,
-                        kills = player.stats.kills,
-                        deaths = player.stats.deaths,
-                        assists = player.stats.assists,
-                        item0 = player.stats.item0,
-                        item1 = player.stats.item1,
-                        item2 = player.stats.item2,
-                        item3 = player.stats.item3,
-                        item4 = player.stats.item4,
-                        item5 = player.stats.item5,
-                        ward = player.stats.item6
-                    )
-                    historics.add(historic)
-                }
-            }
-        }
-
-        adapter = HistoricAdapter(historics)
-        historic_recyclerView.adapter = adapter;
-    }
-
 
     companion object {
         /**
