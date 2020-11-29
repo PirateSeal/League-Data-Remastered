@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.database.DataStorage
-import com.example.myapplication.http.servicepatch.ApiPatchServiceImpl
+import com.example.myapplication.http.servicepatch.ApiCdnServiceImpl
 
 class MainActivity : AppCompatActivity() {
-    private val patchApi = ApiPatchServiceImpl
+    private val patchApi = ApiCdnServiceImpl
 
     private lateinit var dataStorage: DataStorage
 
@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
 
         patchApi.getPatchVersion()
 
-        patchApi.setFiller(object : ApiPatchServiceImpl.InfoFiller {
+        patchApi.setFiller(object : ApiCdnServiceImpl.InfoFiller {
             override fun fillPatch(patch: String) {
                 dataStorage.putString("patch", patch)
             }
         })
 
-        patchApi.setListener(object : ApiPatchServiceImpl.ErrorHandler {
+        patchApi.setListener(object : ApiCdnServiceImpl.ErrorHandler {
             override fun errorPatch() {
                 TODO("Not yet implemented")
             }

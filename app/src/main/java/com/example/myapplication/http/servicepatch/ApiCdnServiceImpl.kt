@@ -1,15 +1,16 @@
 package com.example.myapplication.http.servicepatch
 
 import com.example.myapplication.http.RetrofitClient
+import com.example.myapplication.model.champions.Champions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
-object ApiPatchServiceImpl {
+object ApiCdnServiceImpl {
 
-    private val patchApiService =
+    private val cdnApiService =
         RetrofitClient.getCdnClient()
             .create(PatchApiService::class.java)
 
@@ -38,7 +39,7 @@ object ApiPatchServiceImpl {
         GlobalScope.launch(Dispatchers.IO) {
 
             try {
-                val response = patchApiService.getPatchVersion().awaitResponse()
+                val response = cdnApiService.getPatchVersion().awaitResponse()
                 if (response.isSuccessful) {
                     val patchVersion = response.body()!!.first()
                     withContext(Dispatchers.Main) {
@@ -50,6 +51,22 @@ object ApiPatchServiceImpl {
                     errorHandler.errorPatch()
                 }
             }
+        }
+    }
+
+    suspend fun getChampion(championId: Int)  {
+        try {
+            val response = cdnApiService.getChampions().awaitResponse()
+            if (response.isSuccessful) {
+                val champions : Champions? = response.body()
+
+                val champion = champions?.let { listOf(it.data) }
+
+                println(champion)
+
+            }
+        } catch (e: Exception) {
+                errorHandler.errorPatch()
         }
     }
 }

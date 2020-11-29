@@ -17,6 +17,8 @@ interface HistoricApiService {
     fun getMatch()
 
     @GET(HistoricApiRouting.GAMEINFO)
-    fun getGameInfo(): Call<Game>
+    fun getGameInfo(@Header("X-Riot-Token") token: String,
+                    @Path("matchId") matchId: Long
+    ): Call<Game>
 
 }
