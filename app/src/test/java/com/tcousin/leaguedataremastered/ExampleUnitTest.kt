@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
 import org.junit.Test
 

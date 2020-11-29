@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,12 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.example.myapplication.database.DataStorage
-import com.example.myapplication.http.serviceapi.ApiServiceImpl
-import com.example.myapplication.model.ModelSummoner
-import com.example.myapplication.model.ranked.ModelRank
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
+import com.tcousin.leaguedataremastered.database.DataStorage
+import com.tcousin.leaguedataremastered.http.serviceapi.ApiServiceImpl
+import com.tcousin.leaguedataremastered.model.ModelSummoner
+import com.tcousin.leaguedataremastered.model.ranked.ModelRank
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.util.*
@@ -27,12 +27,12 @@ import java.util.*
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
-    val api = ApiServiceImpl;
+    val api = ApiServiceImpl
 
-    private lateinit var dataStorage: DataStorage;
+    private lateinit var dataStorage: DataStorage
 
-    private lateinit var version : String;
-    private var summonerName: String = "";
+    private lateinit var version: String
+    private var summonerName: String = ""
 
     var imagesPh = intArrayOf(
         R.drawable.unranked,
@@ -56,18 +56,18 @@ class ProfileFragment : Fragment() {
         val profileIcon = profile_pic as CircleImageView
         profileIcon.setImageResource(R.drawable.summph)
 
-        val editText = profile_search as EditText;
+        val editText = profile_search as EditText
         summonerName = dataStorage.getString("summonerName")
-        if(summonerName != ""){
-            editText.setText(summonerName);
-            api.getSummoner(summonerName);
+        if (summonerName != "") {
+            editText.setText(summonerName)
+            api.getSummoner(summonerName)
         }
 
         editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val summonerName = editText.text.toString()
-                dataStorage.putString("summonerName", summonerName);
-                api.getSummoner(summonerName);
+                dataStorage.putString("summonerName", summonerName)
+                api.getSummoner(summonerName)
                 return@OnEditorActionListener true
             }
             return@OnEditorActionListener false
@@ -80,9 +80,9 @@ class ProfileFragment : Fragment() {
         ApiServiceImpl.setFiller(object : ApiServiceImpl.InfoFiller {
             override fun fillSummonerData(summoner: ModelSummoner) {
 
-                dataStorage.putString("accountId", summoner.accountId);
-                dataStorage.putString("id", summoner.id);
-                dataStorage.putString("puuid", summoner.puuid);
+                dataStorage.putString("accountId", summoner.accountId)
+                dataStorage.putString("id", summoner.id)
+                dataStorage.putString("puuid", summoner.puuid)
 
 
                 val textLvl =
@@ -169,7 +169,7 @@ class ProfileFragment : Fragment() {
         val display = "${modelRank[position].tier} : ${modelRank[position].rank}"
         var lp = ""
 
-        if(modelRank[position].queueType == "RANKED_SOLO_5x5") {
+        if (modelRank[position].queueType == "RANKED_SOLO_5x5") {
             ranked_mode.text = getString(R.string.ranked_solo)
         } else {
             ranked_mode.text = getString(R.string.ranked_flex)

@@ -1,8 +1,8 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_second.bottom_bar as bottom_bar
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
 
@@ -32,6 +32,6 @@ class SecondActivity : AppCompatActivity() {
 
     private fun showFriendsFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.containerFragment, FriendFragment())
-            .commit();
+            .commit()
     }
 }

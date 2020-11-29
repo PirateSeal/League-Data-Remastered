@@ -1,13 +1,13 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.friends.Friend
-import com.example.myapplication.friends.FriendsAdapter
+import com.tcousin.leaguedataremastered.friends.Friend
+import com.tcousin.leaguedataremastered.friends.FriendsAdapter
 import kotlinx.android.synthetic.main.fragment_friend.*
 
 /**
@@ -19,11 +19,7 @@ class FriendFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
     lateinit var adapter: FriendsAdapter
-    lateinit var friends : ArrayList<Friend>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var friends: ArrayList<Friend>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +33,14 @@ class FriendFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         friend_recyclerView.layoutManager = LinearLayoutManager(requireContext())
         friends = ArrayList()
-        for (x in 0..10){
+        for (x in 0..10) {
 
-            val f = Friend(name= "Friend-$x", profile_picture = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80", rank = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80")
-        friends.add(f)
+            val f = Friend(
+                name = "Friend-$x",
+                profile_picture = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80",
+                rank = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&w=1000&q=80"
+            )
+            friends.add(f)
         }
         adapter = FriendsAdapter(friends)
         friend_recyclerView.adapter = adapter

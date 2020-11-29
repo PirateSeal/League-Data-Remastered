@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.database.DataStorage
-import com.example.myapplication.history.Historic
-import com.example.myapplication.history.HistoricAdapter
-import com.example.myapplication.http.historic.HistoricServiceImpl
-import com.example.myapplication.http.servicepatch.ApiCdnServiceImpl
-import com.example.myapplication.model.matchs.MatchsList
-import com.example.myapplication.model.matchs.games.Game
-import com.example.myapplication.model.matchs.games.Participant
+import com.tcousin.leaguedataremastered.database.DataStorage
+import com.tcousin.leaguedataremastered.history.Historic
+import com.tcousin.leaguedataremastered.history.HistoricAdapter
+import com.tcousin.leaguedataremastered.http.historic.HistoricServiceImpl
+import com.tcousin.leaguedataremastered.http.servicepatch.ApiCdnServiceImpl
+import com.tcousin.leaguedataremastered.model.matchs.MatchsList
+import com.tcousin.leaguedataremastered.model.matchs.games.Game
+import com.tcousin.leaguedataremastered.model.matchs.games.Participant
 import kotlinx.android.synthetic.main.fragment_historic.*
 
 /**
@@ -24,13 +24,13 @@ import kotlinx.android.synthetic.main.fragment_historic.*
  */
 class HistoricFragment : Fragment() {
 
-    private lateinit var gameInfo: Game;
+    private lateinit var gameInfo: Game
     private val api = HistoricServiceImpl
     private val cdnApi = ApiCdnServiceImpl
 
-    private lateinit var adapter: HistoricAdapter;
-    private lateinit var historics: ArrayList<Historic>;
-    private lateinit var dataStorage: DataStorage;
+    private lateinit var adapter: HistoricAdapter
+    private lateinit var historics: ArrayList<Historic>
+    private lateinit var dataStorage: DataStorage
     private lateinit var accountId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,14 +55,14 @@ class HistoricFragment : Fragment() {
         historics = ArrayList()
 
         adapter = HistoricAdapter(historics)
-        historic_recyclerView.adapter = adapter;
+        historic_recyclerView.adapter = adapter
         accountId = dataStorage.getString("accountId")
         api.getMatches(accountId)
 
         api.setFiller(object : HistoricServiceImpl.InfoFiller {
 
             override fun fillMatchInfo(game: Game) {
-                gameInfo = game;
+                gameInfo = game
                 println("GAME")
                 println(game)
             }
@@ -98,8 +98,8 @@ class HistoricFragment : Fragment() {
                             historics.add(historic)
                         }
                     }
-                    println(historics);
-                    println(historics);
+                    println(historics)
+                    println(historics)
                 }
             }
         })

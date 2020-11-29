@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.tcousin.leaguedataremastered
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,8 +10,8 @@ import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.myapplication.database.DataStorage
-import com.example.myapplication.http.servicepatch.ApiCdnServiceImpl
+import com.tcousin.leaguedataremastered.database.DataStorage
+import com.tcousin.leaguedataremastered.http.servicepatch.ApiCdnServiceImpl
 
 class MainActivity : AppCompatActivity() {
     private val patchApi = ApiCdnServiceImpl
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             .show()
         intent = Intent(this, SecondActivity::class.java)
         startActivity(intent)
-        sendNotification();
+        sendNotification()
     }
 
     private fun sendNotification() {
