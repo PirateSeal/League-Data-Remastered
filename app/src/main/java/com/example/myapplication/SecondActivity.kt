@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_second.bottom_bar as bottom_bar
 
 class SecondActivity : AppCompatActivity() {
@@ -35,5 +34,4 @@ class SecondActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.containerFragment, FriendFragment())
             .commit();
     }
-
 }

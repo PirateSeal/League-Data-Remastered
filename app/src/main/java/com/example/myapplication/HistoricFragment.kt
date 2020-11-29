@@ -33,7 +33,6 @@ class HistoricFragment : Fragment() {
     private lateinit var dataStorage: DataStorage;
     private lateinit var accountId: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

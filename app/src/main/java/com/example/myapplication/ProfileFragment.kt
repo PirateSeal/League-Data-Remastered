@@ -218,6 +218,4 @@ class ProfileFragment : Fragment() {
         ImageListener { position, imageView ->
             imageView.setImageResource(imagesPh[position])
         }
-
-
 }

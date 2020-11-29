@@ -10,7 +10,6 @@ import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.myapplication.database.DataStorage
 import com.example.myapplication.http.servicepatch.ApiCdnServiceImpl
 
@@ -42,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
         setContentView(R.layout.activity_main)
 
         Toast.makeText(applicationContext, getString(R.string.app_name), Toast.LENGTH_LONG)
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val builder = NotificationCompat.Builder(this, "LDR_CHANNEL_ID")
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.logo)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(getString(R.string.welcome))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -75,6 +73,4 @@ class MainActivity : AppCompatActivity() {
             notify(1, builder.build())
         }
     }
-
-
 }
